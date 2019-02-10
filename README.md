@@ -1,6 +1,6 @@
 # 基于vuecli3
 
-## 小说网站
+## 小说网站 追书神器接口https://xiadd.github.io/zhuishushenqi/#/
 ```
 npm install
 ```
