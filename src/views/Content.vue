@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4 id="contentTitle">{{contentTitle}}</h4>
-    <div id="content" v-html="content"></div>
+    <div id="content" v-html="content" :style="contentStyle"></div>
     <div>
       <Spin v-if="isSpinShow">
         <Icon type="ios-loading" size="40" class="demo-spin-icon-load"></Icon>
@@ -20,6 +20,11 @@ export default {
       contentTitle: "",
       isSpinShow: true
     };
+  },
+  computed:{
+    contentStyle:function(){
+      return this.$store.state.contentStyle
+    }
   },
   watch: {
     $route() {
@@ -82,9 +87,9 @@ a {
 微软雅黑               Microsoft Yahei
 楷体                       KaiTi*/
 
-  font-family: "Microsoft Yahei";
-  font-size: 1.2em;/* 0.9 1.2 1.5 */
-  color: #000000;
+  /* font-family: "Microsoft Yahei";
+  font-size: 1.2em;/* 0.9 1.2 1.5 
+  color: #000000; */
 }
 #contentTitle {
   font-weight: bold;
