@@ -121,42 +121,32 @@ export default {
   methods: {
     init() {
       if (this.bookSearchId) {
-        this.$http.get(this.$store.state.bookSource + this.bookSearchId).then(
-          res => {
-            this.sourceList = res.data;
-            if (this.sourceList.length) {
-              this.$http
-                .get(
-                  this.$store.state.bookChaperts +
-                    this.sourceList[0]._id +
-                    "?view=chapters"
-                )
-                .then(
-                  res1 => {
-                    debugger;
-                    this.chapters = res1.data.chapters;
-                    this.$nextTick(function() {
-                      this.$router.push({
-                        path:
-                          "/about/" +
-                          this.bookTitle +
-                          "/" +
-                          this.bookSearchId +
-                          "/" +
-                          this.chapters[0].id
-                      });
-                    });
-                  },
-                  error => {
-                    console.info(error);
-                  }
-                );
+        this.$http
+          .get(
+            "/api" +
+              this.$store.state.bookChaperts +
+              this.bookSearchId +
+              "?view=chapters"
+          )
+          .then(
+            res1 => {
+              this.chapters = res1.data.mixToc.chapters;
+              this.$nextTick(function() {
+                this.$router.push({
+                  path:
+                    "/about/" +
+                    this.bookTitle +
+                    "/" +
+                    this.bookSearchId +
+                    "/" +
+                    this.chapters[0].id
+                });
+              });
+            },
+            error => {
+              console.info(error);
             }
-          },
-          error => {
-            console.info(error);
-          }
-        );
+          );
       }
     },
     hiddenBtn() {
