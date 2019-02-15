@@ -2,22 +2,37 @@
   <div id="home" class="container">
     <Input id="search" search enter-button placeholder="输入小说名" size="large" @on-search="search"/>
     <div id="list">
-      <div v-for="(book,index) in listData" :key=index class="list_book col-md-12 col-xs-12 col-lg-6">
-            <router-link :to="'/about/'+book.title+'/'+book._id"><img style="width:134px;height:174px;" :src="'http://statics.zhuishushenqi.com'+book.cover" :alt=book.title class="cover"></router-link>
-            <div class="right">
-                <router-link :to="'/about/'+book.title+'/'+book._id"><h6 class="name"><span>{{book.title}}</span></h6></router-link>
-                <p class="author">
-                    <span>{{book.author}}</span>
-                    <span class="split">  |  </span>
-                    <span>{{book.cat}}</span>
-                </p>
-                <p class="desc">{{book.shortIntro}}</p>
-                <p class="popularity">
-                        <span class="c-red">{{book.latelyFollower}}</span>人气
-                        <span class="split">  |  </span>
-                    <span class="c-red">{{book.retentionRatio}}%</span>读者留存
-                </p>
-            </div>
+      <div
+        v-for="(book,index) in listData"
+        :key="index"
+        class="list_book col-md-12 col-xs-12 col-lg-6"
+      >
+        <router-link :to="'/about/'+book.title+'/'+book._id">
+          <img
+            style="width:134px;height:174px;"
+            :src="'http://statics.zhuishushenqi.com'+book.cover"
+            :alt="book.title"
+            class="cover"
+          >
+        </router-link>
+        <div class="right">
+          <router-link :to="'/about/'+book.title+'/'+book._id">
+            <h6 class="name">
+              <span>{{book.title}}</span>
+            </h6>
+          </router-link>
+          <p class="author">
+            <span>{{book.author}}</span>
+            <span class="split">|</span>
+            <span>{{book.cat}}</span>
+          </p>
+          <p class="desc">{{book.shortIntro}}</p>
+          <p class="popularity">
+            <span class="c-red">{{book.latelyFollower}}</span>人气
+            <span class="split">|</span>
+            <span class="c-red">{{book.retentionRatio}}%</span>读者留存
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -34,7 +49,7 @@ export default {
   methods: {
     search(value) {
       if (value) {
-        this.$http.get(this.$store.state.bookSearch + value).then(
+        this.$http.get("/api" + this.$store.state.bookSearch + value).then(
           res => {
             console.info(res.data);
             this.listData = res.data.books;

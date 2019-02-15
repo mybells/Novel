@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 id="contentTitle">{{contentTitle}}</h4>
+    <h4 id="contentTitle" :style="contentStyle">{{contentTitle}}</h4>
     <div id="content" v-html="content" :style="contentStyle"></div>
     <div>
       <Spin v-if="isSpinShow">
@@ -21,9 +21,9 @@ export default {
       isSpinShow: true
     };
   },
-  computed:{
-    contentStyle:function(){
-      return this.$store.state.contentStyle
+  computed: {
+    contentStyle: function() {
+      return this.$store.state.contentStyle;
     }
   },
   watch: {
@@ -82,7 +82,7 @@ a {
   word-break: normal;
   word-wrap: normal;
   text-indent: 1em;
-/* 宋体                      SimSun（浏览器默认）
+  /* 宋体                      SimSun（浏览器默认）
 黑体                      SimHei
 微软雅黑               Microsoft Yahei
 楷体                       KaiTi*/
