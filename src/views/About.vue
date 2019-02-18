@@ -7,8 +7,8 @@
       <div class="title" style="font-size:17px;">{{bookTitle}}</div>
       <div id="leftlist" style="padding: 10px 15px 10px;overflow: auto;height: calc(100% - 116px);">
         <ul id="ullist">
-          <li v-for="(list,index) in searchData" :key="index">
-            <router-link :to="'/about/'+bookTitle+'/'+bookSearchId+'/'+list.id">{{list.title}}</router-link>
+          <li v-for="(list,index) in searchData" :key="index" @click="checkDetail(index)">
+            <a :class="{active:index==isActive}">{{list.title}}</a>
           </li>
         </ul>
       </div>
@@ -60,7 +60,7 @@
         </Poptip>
       </div>
       <div class="container">
-        <router-view></router-view>
+        <Content :data="chapterDetail"></Content>
       </div>
     </div>
   </div>
@@ -68,21 +68,26 @@
 
 <script>
 import $ from "jquery";
-
+import Content from "./Content.vue";
 export default {
   data() {
     return {
       bookSearchId: this.$route.params.bookSearchId,
-      sourceList: [],
       chapters: [],
+      chapterDetail: [],
+      search: "",
       hiddenBtnflag: true,
       searchBtnflag: true,
-      search: ""
+      isActive: 0
     };
   },
-  created() {},
-  mounted() {
+  components: {
+    Content
+  },
+  created() {
     this.init();
+  },
+  mounted() {
     window.onresize = () => {
       if (this.searchBtnflag) {
         $("#leftlist").outerHeight(
@@ -131,17 +136,7 @@ export default {
           .then(
             res1 => {
               this.chapters = res1.data.mixToc.chapters;
-              this.$nextTick(function() {
-                this.$router.push({
-                  path:
-                    "/about/" +
-                    this.bookTitle +
-                    "/" +
-                    this.bookSearchId +
-                    "/" +
-                    this.chapters[0].id
-                });
-              });
+              this.chapterDetail = this.chapters[0];
             },
             error => {
               console.info(error);
@@ -183,11 +178,12 @@ export default {
         this.searchBtnflag = true;
       }
     },
-    // searchChapter() {
-    //   console.log(this.chapters)
-    // }
     changeSize(obj) {
       this.$store.commit("setStyle", obj);
+    },
+    checkDetail(index) {
+      this.chapterDetail = this.chapters[index];
+      this.isActive = index;
     }
   }
 };
@@ -267,7 +263,9 @@ export default {
 .book-header a:hover {
   color: #000;
 }
-
+.active {
+  color: #008cff !important;
+}
 .contentStyle > div {
   display: flex;
   justify-content: center;

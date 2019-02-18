@@ -13,9 +13,9 @@
 <script>
 export default {
   name: "Content",
+  props: ["data"],
   data() {
     return {
-      contentId: "",
       content: "",
       contentTitle: "",
       isSpinShow: true
@@ -27,13 +27,15 @@ export default {
     }
   },
   watch: {
-    $route() {
+    data() {
+      this.content = "";
+      this.contentTitle = "";
       this.isSpinShow = true;
-      this.contentId = this.$route.params.content;
-      this.$http.get(this.$store.state.bookContent + this.contentId).then(
+      let tempUrl = this.data.link.replace(/\//g, "%2F").replace("?", "%3F");
+      this.$http.get("/chapter" + this.$store.state.bookContent + tempUrl).then(
         res2 => {
-          this.content = res2.data.chapter.cpContent;
-          this.contentTitle = res2.data.chapter.title;
+          this.contentTitle = this.data.title;
+          this.content = res2.data.chapter.body;
           this.isSpinShow = false;
         },
         error => {
@@ -41,19 +43,6 @@ export default {
         }
       );
     }
-  },
-  created() {
-    this.isSpinShow = true;
-    this.contentId = this.$route.params.content;
-    this.$http.get(this.$store.state.bookContent + this.contentId).then(
-      res2 => {
-        this.content = res2.data.chapter.cpContent;
-        this.isSpinShow = false;
-      },
-      error => {
-        console.info(error);
-      }
-    );
   }
 };
 </script>
@@ -83,12 +72,12 @@ a {
   word-wrap: normal;
   text-indent: 1em;
   /* 宋体                      SimSun（浏览器默认）
-黑体                      SimHei
-微软雅黑               Microsoft Yahei
-楷体                       KaiTi*/
+     黑体                      SimHei
+     微软雅黑                   Microsoft Yahei
+     楷体                      KaiTi*/
 
   /* font-family: "Microsoft Yahei";
-  font-size: 1.2em;/* 0.9 1.2 1.5 
+  font-size: 1.2em; 0.9 1.2 1.5 
   color: #000000; */
 }
 #contentTitle {

@@ -46,6 +46,8 @@ export default {
       listData: []
     };
   },
+  created() {},
+  mounted() {},
   methods: {
     search(value) {
       if (value) {

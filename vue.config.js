@@ -16,6 +16,14 @@ module.exports = {
         pathRewrite: {
           "^/api": "" // rewrite path
         }
+      },
+      "/chapter": {
+        target: "http://chapter2.zhuishushenqi.com", // target host
+        ws: true, // proxy websockets
+        changeOrigin: true, // needed for virtual hosted sites
+        pathRewrite: {
+          "^/chapter": "" // rewrite path
+        }
       }
     }
   }
